@@ -4,7 +4,7 @@
 #include <TinyWireM.h>
 #include <avr/power.h>
 #include <avr/sleep.h>
-#include "ledUtils.h"
+#include "ledMatrixUtils.h"
 
 //
 //--------------alien 1 ------------------------------------
@@ -80,11 +80,33 @@ void setup() {
 // main loop
 //
 void loop() {
-  drawAnimation(alien1_data, alien1_timing, 3);
-  drawAnimation(alien2_data, alien2_timing, 3);
-  drawAnimation(alien3_data, alien3_timing, 3);
-  drawAnimation(alien4_data, alien4_timing, 3);
+  int shortSleep = 5000;
+  int longerSleep = 30000;
+  int numAnimations = 4;  
+  for (int repeat=0; repeat < 30; repeat++) {
+    //
+    // do animation patterns with short sleep between each alien
+
+    drawAnimation(alien1_data, alien1_timing, numAnimations);
+    clear();
+    delay(shortSleep);
+
+    drawAnimation(alien2_data, alien2_timing, numAnimations);
+    clear();
+    delay(shortSleep);
+    
+    drawAnimation(alien3_data, alien3_timing, numAnimations);
+    clear();
+    delay(shortSleep);
+    
+    drawAnimation(alien4_data, alien4_timing, numAnimations);
+    clear();
+    
+    // longer sleep until repeat
+    delay(longerSleep);
+  }
    
+  // go to permanent sleep mode until button pushed
   goToSleep();
   // returns here after wakeup from sleep
 }

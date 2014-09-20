@@ -117,6 +117,20 @@ void LEDMatrix::drawAnimation(const long frameTiming[],
   }
 }
 
+void LEDMatrix::fadeInOut(const long timing[], const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES], int numAnimations, int fadeStep) {
+    // fade dim to bright
+    for (int b=0; b <= 15; b+= fadeStep) {
+      setBrightness(b);
+      drawAnimation(timing, data, numAnimations);
+    }
+    // fade bright to dim
+    for (int b=15; b >= 0 ; b-= fadeStep) {
+      setBrightness(b);
+      drawAnimation(timing, data, numAnimations);
+    }
+    clear();
+}
+
 void LEDMatrix::goToSleep() {
     oscillatorOff();
     GIMSK = _BV(PCIE);     // Enable pin change interrupt

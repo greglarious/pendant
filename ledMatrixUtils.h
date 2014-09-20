@@ -43,6 +43,9 @@ public:
   void drawAnimation(const long frameTiming[], 
                      const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES], 
                      int repititions );
+                     
+  void fadeInOut(const long timing[], const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES], int numAnimations, int fadeStep);
+  
   //
   // put display and gemma to sleep for extremely low power consumption
   // wakeup happens when the button is pushed and the interrupt is triggered

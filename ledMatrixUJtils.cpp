@@ -13,7 +13,7 @@ LEDMatrix::LEDMatrix(int I2CAddress) {
   address = I2CAddress;
 }
 
-void LEDMatrix::ledCmd(uint8_t x) {
+void LEDMatrix::ledCmd(const uint8_t x) {
   TinyWireM.beginTransmission(address);
   TinyWireM.write(x);
   TinyWireM.endTransmission();
@@ -25,7 +25,7 @@ void LEDMatrix::lowPowerMode() {
   PCMSK |= _BV(PCINT1);      // Set change mask for pin 1
 }
 
-uint8_t LEDMatrix::translateRow(uint8_t rowData) {
+uint8_t LEDMatrix::translateRow(const uint8_t rowData) {
   uint8_t rowCommand = 0;
   // read bits from rowData left to right
   // and translate into LED matrix command
@@ -47,7 +47,7 @@ void LEDMatrix::endFrame() {
   TinyWireM.endTransmission();
 }
 
-void LEDMatrix::drawRow(uint8_t rowData) {
+void LEDMatrix::drawRow(const uint8_t rowData) {
     TinyWireM.write(translateRow(rowData));
     TinyWireM.write(0);
 }
@@ -66,7 +66,7 @@ void LEDMatrix::oscillatorOff() {
     ledCmd(0x20);
 }
 
-void LEDMatrix::displayOn(int blinkType) {
+void LEDMatrix::displayOn(const int blinkType) {
     ledCmd(0x81 + blinkType);
 }
 
@@ -74,15 +74,16 @@ void LEDMatrix::displayOff() {
     ledCmd(0x80 );
 }
 
-void LEDMatrix::setBrightness(unsigned int level) {
+void LEDMatrix::setBrightness(const unsigned int level) {
   if (level > 15) {
-    level = 15;
+    ledCmd(0xE0 | 15);
   }
-  
-  ledCmd(0xE0 | level);
+  else {
+    ledCmd(0xE0 | level);
+  }
 }
 
-void LEDMatrix::initializeDisplay(int brightness, int blinkType) {
+void LEDMatrix::initializeDisplay(const int brightness, const int blinkType) {
   TinyWireM.begin();         // I2C init
   clear();                   // Blank display
   oscillatorOn();
@@ -92,32 +93,35 @@ void LEDMatrix::initializeDisplay(int brightness, int blinkType) {
   displayOn(blinkType);
 }
 
-void LEDMatrix::drawAnimation(const long frameTiming[], 
-                   const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES], 
-                   int repititions ) {
+void LEDMatrix::drawAnimation(const uint16_t timing[] PROGMEM, 
+                              const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
+                              const int repititions ) {
   for (int repeatIndex=0; repeatIndex < repititions; repeatIndex++) {
     
     //
     // loop until we find a frameTiming of zero
     int frameIndex = 0;
-    while (frameTiming[frameIndex] > 0) {
+    while (pgm_read_word(&timing[frameIndex]) > 0) {
       //
       // draw the current frame
       beginFrame();
       for (int rowIndex=0; rowIndex < ROWS_PER_FRAME; rowIndex++) {
-        drawRow(frames[rowIndex][frameIndex]);
+        drawRow(pgm_read_byte(&(data[rowIndex][frameIndex])));
       }
       endFrame();
       
       //
       // pause between frames
-      delay(frameTiming[frameIndex]);
+      delay(pgm_read_word(&timing[frameIndex]));
       frameIndex++;
     }
   }
 }
 
-void LEDMatrix::fadeInOut(const long timing[], const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES], int numAnimations, int fadeStep) {
+void LEDMatrix::fadeInOut(const uint16_t timing[] PROGMEM, 
+                          const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM,
+                          const int numAnimations, 
+                          const int fadeStep) {
     // fade dim to bright
     for (int b=0; b <= 15; b+= fadeStep) {
       setBrightness(b);

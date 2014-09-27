@@ -25,7 +25,7 @@ public:
   //
   // turn on display, blank it and set brigthness
   //
-  void initializeDisplay(int brightness, int blinkType);
+  void initializeDisplay(const int brightness, const int blinkType);
   
   //
   // draw a sequence of screens with sleep between each frame
@@ -40,11 +40,14 @@ public:
   //
   // repititions  - how many times to repeat the entire animation from first frame to last
   //
-  void drawAnimation(const long frameTiming[], 
-                     const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES], 
-                     int repititions );
+  void drawAnimation(const uint16_t frameTiming[] PROGMEM, 
+                     const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
+                     const int repititions );
                      
-  void fadeInOut(const long timing[], const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES], int numAnimations, int fadeStep);
+  void fadeInOut(    const uint16_t timing[] PROGMEM, 
+                     const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
+                     const int numAnimations, 
+                     const int fadeStep);
   
   //
   // put display and gemma to sleep for extremely low power consumption
@@ -52,11 +55,11 @@ public:
   // this function will not return until the button is pushed
   void goToSleep();
 
-  void setBrightness(unsigned int level);
+  void setBrightness(const unsigned int level);
   void oscillatorOn();
   void oscillatorOff();
   
-  void displayOn(int blinkType);
+  void displayOn(const int blinkType);
   void displayOff();
 
 private:
@@ -65,7 +68,7 @@ private:
   //
   // send single byte command to LED matrix
   //
-  void ledCmd(uint8_t x);
+  void ledCmd(const uint8_t cmd);
 
   //
   // translate a byte of bitmapped pixels into an LED matrix command as follows:
@@ -76,7 +79,7 @@ private:
   //           bit 7 is the leftmost pixel and bit 0 is the rightmost pixel
   //
   // returns - byte formatted for LED matrix
-  static uint8_t translateRow(uint8_t rowData);
+  static uint8_t translateRow(const uint8_t rowData);
   
   //
   // begin writing pixel data to screan
@@ -93,5 +96,5 @@ private:
   // rowData - bitmapped representation of row
   //           bit 7 is the leftmost pixel and bit 0 is the right
   //
-  void drawRow(uint8_t rowData);
+  void drawRow(const uint8_t rowData);
 };

@@ -3,10 +3,7 @@
 
 // display object using default address
 LEDMatrix matrix = LEDMatrix();
-#define LFRM_DLAY 100  // long delay between frames
-#define MFRM_DLAY 80   // medium delay between frames
-#define SFRM_DLAY 30   // short delay between frames
-#define END_FRAMES 0   // no more frames
+
 //
 //--------------alien 1 ------------------------------------
 //
@@ -109,36 +106,24 @@ void setup() {
   matrix.initializeDisplay(12, LEDMatrix::BLINK_NONE);
 }
 
-#define shortSleep 3000
-#define longerSleep 10000
-#define numAnimations 2
-#define fadeStep 2
-#define repeatCount 2
+
 //
 // main loop
 //
 void loop() {
+  const int shortSleep = 3000;
+  const int longerSleep = 10000;
+  const int numAnimations = 2;
+  const int fadeStep = 2;
+  const int repeatCount = 2;
+  
   for (int repeat=0; repeat < repeatCount ; repeat++) {
-    
-    matrix.fadeInOut(alien1Timing, alien1Data, numAnimations, fadeStep);
-    delay(shortSleep);
-
-    matrix.fadeInOut(alien2Timing, alien2Data, numAnimations, fadeStep);
-    delay(shortSleep);
-    
-    matrix.fadeInOut(alien3Timing, alien3Data, numAnimations, fadeStep);
-    delay(shortSleep);
-    
-    matrix.fadeInOut(alien4Timing, alien4Data, numAnimations, fadeStep);
-    delay(shortSleep);
-
-    matrix.fadeInOut(pacmanTiming, pacmanData, numAnimations, fadeStep);
-    delay(shortSleep);
-    
-    matrix.fadeInOut(ghostTiming, ghostData, numAnimations, fadeStep);
-    
-    // longer sleep until repeat
-    delay(longerSleep);
+    matrix.fadeInOut(alien1Timing, alien1Data, numAnimations, fadeStep, shortSleep);
+    matrix.fadeInOut(alien2Timing, alien2Data, numAnimations, fadeStep, shortSleep);
+    matrix.fadeInOut(alien3Timing, alien3Data, numAnimations, fadeStep, shortSleep);
+    matrix.fadeInOut(alien4Timing, alien4Data, numAnimations, fadeStep, shortSleep);
+    matrix.fadeInOut(pacmanTiming, pacmanData, numAnimations, fadeStep, shortSleep);
+    matrix.fadeInOut(ghostTiming,  ghostData,  numAnimations, fadeStep, longerSleep);
   }
    
   // go to permanent sleep mode and dont return until button pushed

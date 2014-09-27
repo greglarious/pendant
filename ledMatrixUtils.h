@@ -2,9 +2,18 @@
 #define MAX_FRAMES 8
 #define COLUMS_PER_ROW 8
 
+// 
+// some reasonable frame delay values for animations
+//
+#define LFRM_DLAY 100  // long delay between frames
+#define MFRM_DLAY 80   // medium delay between frames
+#define SFRM_DLAY 30   // short delay between frames
+#define END_FRAMES 0   // no more frames
+
 class LEDMatrix {
 public:
   static const int DEFAULT_I2C_ADDR = 0x70;
+
   static const int BLINK_NONE = 0;
   static const int BLINK_2HZ = 2;
   static const int BLINK_1HZ = 4;
@@ -12,6 +21,7 @@ public:
   
   LEDMatrix();
   LEDMatrix(int I2CAddress);
+  
   //
   // lower power consumption to extend battery life
   //
@@ -44,10 +54,30 @@ public:
                      const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
                      const int repititions );
                      
+  //
+  // draw a sequence of screens with sleep between each frame while fading the brightness in and out
+  // uses multiple calls to drawAnimation while adjusting display brightness
+  //
+  // frame_timing - array of indicating how long to sleep between frames.
+  //                an entry of zero indicates no more frames and decides how 
+  //                many frames will be processed by this function
+  //
+  // frames       - two dimensional array of bitmapped data to draw
+  //                the first index is the row 0 .. 8
+  //                the second index is the frame number in the animation
+  //
+  // repititions  - how many times to repeat the entire animation from first frame to last
+  //
+  // fadeStep     - amount to increment/decrement display brightness level beteween animations
+  //                the brightness goes from 0 to 15 and back so reasonable values here are from 1 to 5
+  //
+  // sleepWhenDone - millis to sleep when sequence is complete
+  //
   void fadeInOut(    const uint16_t timing[] PROGMEM, 
                      const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
-                     const int numAnimations, 
-                     const int fadeStep);
+                     const int repititions, 
+                     const int fadeStep,
+                     const long sleepWhenDone);
   
   //
   // put display and gemma to sleep for extremely low power consumption
@@ -55,11 +85,28 @@ public:
   // this function will not return until the button is pushed
   void goToSleep();
 
+  //
+  // set the brightness level for the display
+  // level       - value from 0 to 15 with 15 being the brightest
   void setBrightness(const unsigned int level);
-  void oscillatorOn();
-  void oscillatorOff();
   
+  //
+  // turn on the oscillator in the backpack 
+  void oscillatorOn();
+  
+  //
+  // turn off the oscillator in the backpack 
+  void oscillatorOff();
+
+  // send the display on command
+  // blinkType   - one of the following values:
+  //               BLINK_NONE
+  //               BLINK_2HZ
+  //               BLINK_1HZ
+  //               BLINK_HALFHZ
   void displayOn(const int blinkType);
+  
+  //send the display off command
   void displayOff();
 
 private:

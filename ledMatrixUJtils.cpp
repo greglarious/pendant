@@ -87,9 +87,7 @@ void LEDMatrix::initializeDisplay(const int brightness, const int blinkType) {
   TinyWireM.begin();         // I2C init
   clear();                   // Blank display
   oscillatorOn();
-  
   setBrightness(brightness);
-  
   displayOn(blinkType);
 }
 
@@ -97,11 +95,10 @@ void LEDMatrix::drawAnimation(const uint16_t timing[] PROGMEM,
                               const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
                               const int repititions ) {
   for (int repeatIndex=0; repeatIndex < repititions; repeatIndex++) {
-    
     //
-    // loop until we find a frameTiming of zero
+    // loop until we find end of frame timing data
     int frameIndex = 0;
-    while (pgm_read_word(&timing[frameIndex]) > 0) {
+    while (pgm_read_word(&timing[frameIndex]) != END_FRAMES) {
       //
       // draw the current frame
       beginFrame();
@@ -121,7 +118,8 @@ void LEDMatrix::drawAnimation(const uint16_t timing[] PROGMEM,
 void LEDMatrix::fadeInOut(const uint16_t timing[] PROGMEM, 
                           const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM,
                           const int numAnimations, 
-                          const int fadeStep) {
+                          const int fadeStep,
+                          const long sleepWhenDone) {
     // fade dim to bright
     for (int b=0; b <= 15; b+= fadeStep) {
       setBrightness(b);
@@ -133,6 +131,7 @@ void LEDMatrix::fadeInOut(const uint16_t timing[] PROGMEM,
       drawAnimation(timing, data, numAnimations);
     }
     clear();
+    delay(sleepWhenDone);
 }
 
 void LEDMatrix::goToSleep() {

@@ -1,5 +1,5 @@
 #include <TinyWireM.h>
-#include "ledMatrixUtils.h"
+#include "LEDMatrix.h"
 
 #include <avr/power.h>
 #include <avr/sleep.h>

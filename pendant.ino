@@ -1,5 +1,5 @@
 #include <TinyWireM.h>
-#include "ledMatrixUtils.h"
+#include "LEDMatrix.h"
 
 // display object using default address
 LEDMatrix matrix = LEDMatrix();

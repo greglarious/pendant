@@ -1,3 +1,5 @@
+// controller for Adafruit 8x8 LED matrix using backpack
+
 #define ROWS_PER_FRAME 8
 #define MAX_FRAMES 8
 #define COLUMS_PER_ROW 8

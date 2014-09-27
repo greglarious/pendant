@@ -3,10 +3,10 @@
 
 // display object using default address
 LEDMatrix matrix = LEDMatrix();
-#define FRM_DELAY 100
-#define MFRM_DLAY 80
-#define SFRM_DLAY 30
-#define END_FRAMES 0
+#define LFRM_DLAY 100  // long delay between frames
+#define MFRM_DLAY 80   // medium delay between frames
+#define SFRM_DLAY 30   // short delay between frames
+#define END_FRAMES 0   // no more frames
 //
 //--------------alien 1 ------------------------------------
 //
@@ -20,7 +20,7 @@ const  uint8_t alien1Data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B01011010, B01011010 },
  { B10100101, B01000010 } };
 const uint16_t alien1Timing[] PROGMEM = 
- { FRM_DELAY, FRM_DELAY, END_FRAMES};
+ { LFRM_DLAY, LFRM_DLAY, END_FRAMES};
 
 //
 //--------------alien 2 ------------------------------------
@@ -35,7 +35,7 @@ const  uint8_t alien2Data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B00100100, B00100100 },
  { B11000011, B00100100 } };
 const uint16_t alien2Timing[] PROGMEM = 
- { FRM_DELAY, FRM_DELAY, END_FRAMES};
+ { LFRM_DLAY, LFRM_DLAY, END_FRAMES};
 
 //
 //--------------alien 3 ------------------------------------
@@ -50,7 +50,7 @@ const  uint8_t alien3Data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B10100101, B00100100 },
  { B00100100, B01000010 } };
 const uint16_t alien3Timing[] PROGMEM = 
- { FRM_DELAY, FRM_DELAY, END_FRAMES };
+ { LFRM_DLAY, LFRM_DLAY, END_FRAMES };
 
 
 //
@@ -99,7 +99,7 @@ const  uint8_t ghostData[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B01010101, B01010101} };
  
 const uint16_t ghostTiming[] PROGMEM =
- { SFRM_DLAY, SFRM_DLAY, END_FRAMES };
+ { LFRM_DLAY, LFRM_DLAY, END_FRAMES };
 
 //
 // initial setup

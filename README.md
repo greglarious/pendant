@@ -18,8 +18,8 @@ Background for new programmers
 This is a list of topics with brief explanations to help a new programmer understand how this project works:
 
 * ### Binary numbers  
-   There are 8 bits in a byte visualized as follows:
-   ![a byte](https://github.com/greglarious/pendant/raw/master/markdown/byte.png "Explanation of a byte")
+   There are 8 bits in a byte visualized as follows:  
+   ![a byte](https://github.com/greglarious/pendant/raw/master/markdown/byte.png "Explanation of a byte")  
    A single byte can represent a number from 0 to 255
    A constant binary value is represented by the letter B followed by 8 0s and 1s
    Example binary constant: B00101011

@@ -25,8 +25,8 @@ This is a list of topics with brief explanations to help a new programmer unders
    Example binary constant: B00101011  
  
 * ### Binary numbers used as a bitmap:
-   When a binary number is used as a bitmap, it becomes 8 separate on/off switches.  
-   The overall binary number is not meaningful, just the individual bits.  
+   When a byte is used as a bitmap, it becomes 8 separate on/off switches.  
+   The overall binary number for the byte is not meaningful, just the individual bits.  
    In this specific project, each bit represents an LED on the display.  
    If the bit is a one then the LED will be turned on.  if the bit is a zero then the LED will be off.  
   
@@ -120,4 +120,4 @@ matrix.drawAnimation(ghostTiming,  ghostData,  3);
 ```
    This method will call drawAnimation multiple times to present the animation fading from dim to bright and back to dim.  Then, it will sleep for a period of time.  The first 3 parameters are the same as drawAnimation.  
    fadeStep - is how quickly to adjust the brightness.  Suggested values are between 1 and 3
-   sleepWhenDown - is how many milliseconds to sleeep
+   sleepWhenDone - is how many milliseconds to sleep

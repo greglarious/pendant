@@ -2,7 +2,7 @@ Pendant
 =======
 This is an example program for the AdaFruit pendant project.  The project and this readme were written to teach kids in 6th grade.
 
-For buying and building the actual pendant, see the: [Adafruit project](https://learn.adafruit.com/trinket-slash-gemma-space-invader-pendant/)
+For buying and building the actual pendant, see the: [Adafruit project](https://learn.adafruit.com/trinket-slash-gemma-space-invader-pendant/)  
 This learning project is available here: [pendant on github](https://github.com/greglarious/pendant)
 
 Overview
@@ -31,7 +31,7 @@ This is a list of topics with brief explanations to help a new programmer unders
    If the bit is a one then the LED will be turned on.  if the bit is a zero then the LED will be off.
   
 * ### Variables:  
-   in arduino programming, variables are named locations in memory that have specific type.
+   in arduino programming, variables are named locations in memory that have specific type. [Variables](http://arduino.cc/en/Tutorial/Variables)
    some examples:
      int x     - an integer named x
      char y    y a character name y
@@ -66,6 +66,11 @@ This is a list of topics with brief explanations to help a new programmer unders
 Using the LEDMatrix Class
 -------------------------
 This section describes how to use the example program to work with the display:  
+* ### Defining an LEDMatrix object to use:
+   ```cpp
+LEDMatrix matrix = LEDMatrix();   
+```
+   This makes a variable named "matrix" that is an object of class LEDMatrix.
 
 * ### Defining a new animation to show on the display
    #### Define a two dimensional array to hold the image data like this:
@@ -104,3 +109,15 @@ void drawAnimation(const uint16_t frameTiming[] PROGMEM,
    ```cpp   
 matrix.drawAnimation(ghostTiming,  ghostData,  3);
 ```
+
+   #### fadeInOut method
+   ```cpp
+  void fadeInOut(    const uint16_t timing[] PROGMEM, 
+                     const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
+                     const int repititions, 
+                     const int fadeStep,
+                     const long sleepWhenDone);
+```
+   This method will call drawAnimation multiple times to present the animation fading from dim to bright and back to dim.  Then, it will sleep for a period of time.  The first 3 parameters are the same as drawAnimation.  
+   fadeStep - is how quickly to adjust the brightness.  Suggested values are between 1 and 3
+   sleepWhenDown - is how many milliseconds to sleeep

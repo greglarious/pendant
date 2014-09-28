@@ -19,27 +19,22 @@ Background for new programmers
 ------------------------------
 This is a list of topics with brief explanations to help a new programmer understand how this project works:
 
-1 Binary numbers:
+* Binary numbers  
+   There are 8 bits in a byte visualized as follows:  
+   ![a byte](https://github.com/greglarious/pendant/raw/master/markdown/byte.png "Explanation of a byte")  
 
-![a byte](https://github.com/greglarious/pendant/raw/master/markdown/byte.png "Explanation of a byte")
-
-  * There are 8 bits in a byte
-  * they are numbered from right to left as bit zero to bit seven
-  * - - - - - - - -
-  * 7 6 5 4 3 2 1 0
-  
-  * A single byte can represent a number from 0 to 255
-  * A constant binary value is represented by the letter B followed by 8 0s and 1s    
-  * Example binary constant: B00101011
+   A single byte can represent a number from 0 to 255  
+   A constant binary value is represented by the letter B followed by 8 0s and 1s  
+   Example binary constant: B00101011  
  
 2 Binary numbers used as a bitmap:
 
-  * When a binary number is used as a bitmap, each bit from left to right is used for a distinct purpose.  
-  * The overall binary number is not used, just the individual bits.  
+  * When a binary number is used as a bitmap, each individual bit is used for a distinct purpose. The overall binary number is not meaningful, just the individual bits.  
   * In this specific project, each bit represents an LED on the display.  
   * If the bit is a one then the LED will be turned on.  if the bit is a zero then the LED will be off.
   
-3 Variables
+3 Variables:
+  * in arduino programming, variables are named locations in memory that have specific type.  some examples:
 
 4 Arrays:
 

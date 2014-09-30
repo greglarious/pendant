@@ -121,3 +121,4 @@ matrix.drawAnimation(ghostTiming,  ghostData,  3);
    This method will call drawAnimation multiple times to present the animation fading from dim to bright and back to dim.  Then, it will sleep for a period of time.  The first 3 parameters are the same as drawAnimation.  
    fadeStep - is how quickly to adjust the brightness.  Suggested values are between 1 and 3
    sleepWhenDone - is how many milliseconds to sleep
+

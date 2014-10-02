@@ -1,12 +1,13 @@
 // controller for Adafruit 8x8 LED matrix using backpack
 
 #define ROWS_PER_FRAME 8
-#define MAX_FRAMES 8
+#define MAX_FRAMES 16
 #define COLUMS_PER_ROW 8
 
 // 
 // some reasonable frame delay values for animations
 //
+#define VFRM_DLAY 160  // long delay between frames
 #define LFRM_DLAY 100  // long delay between frames
 #define MFRM_DLAY 80   // medium delay between frames
 #define SFRM_DLAY 30   // short delay between frames

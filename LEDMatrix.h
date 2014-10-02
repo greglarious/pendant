@@ -55,6 +55,9 @@ public:
   //
   void drawAnimation(const uint16_t frameTiming[] PROGMEM, 
                      const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
+                     const int hMomentum,
+                     const int vMomentum,
+                     const int framesPerMove,
                      const int repititions );
                      
   //
@@ -114,7 +117,12 @@ public:
 
 private:
   int address;
-  
+
+  //
+  //
+  //
+  uint8_t slideRow(const uint8_t rowData, const int offset);
+
   //
   // send single byte command to LED matrix
   //
@@ -147,4 +155,7 @@ private:
   //           bit 7 is the leftmost pixel and bit 0 is the right
   //
   void drawRow(const uint8_t rowData);
+  
+  void drawFrame(const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, int frameIndex, int hOffset, int vOffset);
+
 };

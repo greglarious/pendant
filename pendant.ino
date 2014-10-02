@@ -79,7 +79,7 @@ const  uint8_t pacmanData[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B01111110, B01111110, B01111110, B01111110, B01111110, B01111110 },
  { B00111100, B00111100, B00111100, B00111100, B00111100, B00111100 } };
 const uint16_t pacmanTiming[] PROGMEM =
- { SFRM_DLAY, SFRM_DLAY, SFRM_DLAY, SFRM_DLAY, SFRM_DLAY, SFRM_DLAY, END_FRAMES };
+ { MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, END_FRAMES };
  
  
 //
@@ -149,17 +149,27 @@ void loop() {
   const int numAnimations = 2;
   const int fadeStep = 2;
   
-  for (int repeat=0; repeat < 2 ; repeat++) {
-    matrix.setBrightness(13);
-    matrix.drawAnimation(fireworksTiming, fireworksData, 2);
+  // pacman runs right
+  matrix.drawAnimation(pacmanTiming, pacmanData, 1, 0, 3, 8);
+  // pacman backs left faster
+  matrix.drawAnimation(pacmanTiming, pacmanData, -2, 0, 3, 4);
+  // ghost chases left 
+  matrix.drawAnimation(ghostTiming, ghostData, -1, 0, 2, 16);
+
+  // bright fireworks
+  matrix.setBrightness(12);
+  matrix.drawAnimation(fireworksTiming, fireworksData, 0,0,0, 2);
+
+  // smiley
+  matrix.setBrightness(8);
+  matrix.drawAnimation(smileyTiming, smileyData, 0,0,0, 3);
     
-    matrix.fadeInOut(smileyTiming, smileyData, 1, 5, shortSleep);
+  // fade in/out various aliens  
+  for (int repeat=0; repeat < 2 ; repeat++) {
     matrix.fadeInOut(alien1Timing, alien1Data, numAnimations, fadeStep, shortSleep);
     matrix.fadeInOut(alien2Timing, alien2Data, numAnimations, fadeStep, shortSleep);
     matrix.fadeInOut(alien3Timing, alien3Data, numAnimations, fadeStep, shortSleep);
     matrix.fadeInOut(alien4Timing, alien4Data, numAnimations, fadeStep, shortSleep);
-    matrix.fadeInOut(pacmanTiming, pacmanData, numAnimations, fadeStep, shortSleep);
-    matrix.fadeInOut(ghostTiming, ghostData,  numAnimations, fadeStep, longerSleep);
   }
    
   // go to permanent sleep mode and dont return until button pushed

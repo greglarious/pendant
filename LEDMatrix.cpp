@@ -25,6 +25,15 @@ void LEDMatrix::lowPowerMode() {
   PCMSK |= _BV(PCINT1);      // Set change mask for pin 1
 }
 
+uint8_t LEDMatrix::slideRow(const uint8_t rowData, const int offset) {
+  if (offset >= 0) {
+    return rowData >> offset;
+  } else if (offset < 0) {
+    return rowData << abs(offset);
+  }
+}
+
+
 uint8_t LEDMatrix::translateRow(const uint8_t rowData) {
   uint8_t rowCommand = 0;
   // read bits from rowData left to right
@@ -91,9 +100,36 @@ void LEDMatrix::initializeDisplay(const int brightness, const int blinkType) {
   displayOn(blinkType);
 }
 
+
+void LEDMatrix::drawFrame(const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, int frameIndex, int hOffset, int vOffset) {
+      //
+      // draw the current frame
+      beginFrame();
+      for (int rowIndex=0; rowIndex < ROWS_PER_FRAME; rowIndex++) {
+        uint8_t curLine = pgm_read_byte(&(data[rowIndex][frameIndex]));
+        curLine = slideRow(curLine, hOffset);
+        drawRow(curLine);
+      }
+      endFrame();
+}                            
+                              
 void LEDMatrix::drawAnimation(const uint16_t timing[] PROGMEM, 
                               const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
-                              const int repititions ) {
+                              const int hMomentum,
+                              const int vMomentum,
+                              const int framesPerMove,
+                              const int repititions) {
+  int hOffset = 0;
+  int vOffset = 0;
+  
+  // if moving right, start all the way left
+  if (hMomentum > 0) hOffset = -7;
+  
+  // if moving left, start all the way right
+  if (hMomentum < 0) hOffset = 7;
+    
+  int framesShown = 0;
+  
   for (int repeatIndex=0; repeatIndex < repititions; repeatIndex++) {
     //
     // loop until we find end of frame timing data
@@ -101,11 +137,22 @@ void LEDMatrix::drawAnimation(const uint16_t timing[] PROGMEM,
     while (pgm_read_word(&timing[frameIndex]) != END_FRAMES) {
       //
       // draw the current frame
-      beginFrame();
-      for (int rowIndex=0; rowIndex < ROWS_PER_FRAME; rowIndex++) {
-        drawRow(pgm_read_byte(&(data[rowIndex][frameIndex])));
+      drawFrame(data, frameIndex, hOffset, vOffset);
+      
+      framesShown++;
+      if (framesShown >= framesPerMove) {
+        framesShown = 0;
+        
+        //
+        // do move
+        hOffset+= hMomentum;
+        if (hOffset > 8) {
+          hOffset = -7;
+        }
+        if (hOffset < -8) {
+          hOffset = 7;
+        }
       }
-      endFrame();
       
       //
       // pause between frames
@@ -123,12 +170,12 @@ void LEDMatrix::fadeInOut(const uint16_t timing[] PROGMEM,
     // fade dim to bright
     for (int b=0; b <= 15; b+= fadeStep) {
       setBrightness(b);
-      drawAnimation(timing, data, numAnimations);
+      drawAnimation(timing, data, 0, 0, 0, numAnimations);
     }
     // fade bright to dim
     for (int b=15; b >= 0 ; b-= fadeStep) {
       setBrightness(b);
-      drawAnimation(timing, data, numAnimations);
+      drawAnimation(timing, data, 0, 0, 0, numAnimations);
     }
     clear();
     delay(sleepWhenDone);

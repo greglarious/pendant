@@ -105,11 +105,35 @@ void LEDMatrix::drawFrame(const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM
       //
       // draw the current frame
       beginFrame();
-      for (int rowIndex=0; rowIndex < ROWS_PER_FRAME; rowIndex++) {
+      
+      int startingRow = 0;
+      int numRowsToDraw = ROWS_PER_FRAME; 
+      
+      // if sliding down, draw blank lines before image
+      if (vOffset > 0 ) {
+        for (int rows=0; rows < vOffset; rows++) {
+          drawRow(0);
+        }
+        numRowsToDraw = ROWS_PER_FRAME - vOffset;
+      }
+      
+      if (vOffset < 0) {
+        startingRow = abs(vOffset);
+      }
+      
+      for (int rowIndex=startingRow; rowIndex < numRowsToDraw; rowIndex++) {
         uint8_t curLine = pgm_read_byte(&(data[rowIndex][frameIndex]));
         curLine = slideRow(curLine, hOffset);
         drawRow(curLine);
       }
+      
+      // if sliding up, draw blank lines after image
+      if (vOffset < 0 ) {
+        for (int rows=0; rows < abs(vOffset); rows++) {
+          drawRow(0);
+        }
+      }
+      
       endFrame();
 }                            
                               
@@ -127,6 +151,13 @@ void LEDMatrix::drawAnimation(const uint16_t timing[] PROGMEM,
   
   // if moving left, start all the way right
   if (hMomentum < 0) hOffset = 7;
+  
+  // if moving right, start all the way left
+  if (vMomentum > 0) vOffset = -7;
+  
+  // if moving left, start all the way right
+  if (vMomentum < 0) vOffset = 7;
+  
     
   int framesShown = 0;
   
@@ -144,13 +175,23 @@ void LEDMatrix::drawAnimation(const uint16_t timing[] PROGMEM,
         framesShown = 0;
         
         //
-        // do move
+        // do horizontal moves
         hOffset+= hMomentum;
         if (hOffset > 8) {
           hOffset = -7;
         }
         if (hOffset < -8) {
           hOffset = 7;
+        }
+
+        //
+        // do vertical moves
+        vOffset+= vMomentum;
+        if (vOffset > 8) {
+          vOffset = -7;
+        }
+        if (vOffset < -8) {
+          vOffset = 7;
         }
       }
       
@@ -170,12 +211,12 @@ void LEDMatrix::fadeInOut(const uint16_t timing[] PROGMEM,
     // fade dim to bright
     for (int b=0; b <= 15; b+= fadeStep) {
       setBrightness(b);
-      drawAnimation(timing, data, 0, 0, 0, numAnimations);
+      drawAnimation(timing, data, numAnimations);
     }
     // fade bright to dim
     for (int b=15; b >= 0 ; b-= fadeStep) {
       setBrightness(b);
-      drawAnimation(timing, data, 0, 0, 0, numAnimations);
+      drawAnimation(timing, data, numAnimations);
     }
     clear();
     delay(sleepWhenDone);

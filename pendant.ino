@@ -144,34 +144,42 @@ void setup() {
 // main loop
 //
 void loop() {
-  const int shortSleep = 3000;
-  const int longerSleep = 10000;
-  const int numAnimations = 2;
-  const int fadeStep = 2;
-  
-  // pacman runs right
-  matrix.drawAnimation(pacmanTiming, pacmanData, 1, 0, 3, 8);
-  // pacman backs left faster
-  matrix.drawAnimation(pacmanTiming, pacmanData, -2, 0, 3, 4);
-  // ghost chases left 
-  matrix.drawAnimation(ghostTiming, ghostData, -1, 0, 2, 16);
-
-  // bright fireworks
-  matrix.setBrightness(12);
-  matrix.drawAnimation(fireworksTiming, fireworksData, 0,0,0, 2);
-
-  // smiley
-  matrix.setBrightness(8);
-  matrix.drawAnimation(smileyTiming, smileyData, 0,0,0, 3);
+  for ( int numReps = 0; numReps < 3; numReps++) {
+    matrix.setBrightness(10);
     
-  // fade in/out various aliens  
-  for (int repeat=0; repeat < 2 ; repeat++) {
-    matrix.fadeInOut(alien1Timing, alien1Data, numAnimations, fadeStep, shortSleep);
-    matrix.fadeInOut(alien2Timing, alien2Data, numAnimations, fadeStep, shortSleep);
-    matrix.fadeInOut(alien3Timing, alien3Data, numAnimations, fadeStep, shortSleep);
-    matrix.fadeInOut(alien4Timing, alien4Data, numAnimations, fadeStep, shortSleep);
-  }
+    // pacman runs right
+    matrix.drawAnimation(pacmanTiming, pacmanData, 1, 0, 3, 8);
+    // pacman backs left faster
+    matrix.drawAnimation(pacmanTiming, pacmanData, -2, 0, 3, 4);
+    // ghost chases left 
+    matrix.drawAnimation(ghostTiming, ghostData, -1, 0, 2, 16);
+  
+    // bright fireworks
+    matrix.setBrightness(12);
+    matrix.drawAnimation(fireworksTiming, fireworksData, 2);
+  
+    // smiley
+    matrix.setBrightness(8);
+    matrix.drawAnimation(smileyTiming, smileyData, 3);
+      
+      
+    // drop alien 1 from the top
+    matrix.drawAnimation(alien1Timing, alien1Data, 0, 1, 2, 16);
+  
+    // alien 2 rises from the bottom
+    matrix.drawAnimation(alien2Timing, alien2Data, 0, -1, 2, 16);
    
+    // alien 3 upper left to center
+    matrix.drawAnimation(alien3Timing, alien3Data, 1, 1, 2, 8);
+    // alien 3 stay and dance a bit
+    matrix.drawAnimation(alien3Timing, alien3Data, 4);
+   
+    // alien 4 fade in/out 
+    matrix.fadeInOut(alien4Timing, alien4Data, 2, 2, 3000);
+  
+    delay(10000);
+  }
+     
   // go to permanent sleep mode and dont return until button pushed
   matrix.goToSleep();
 }

@@ -55,6 +55,11 @@ public:
   //
   void drawAnimation(const uint16_t frameTiming[] PROGMEM, 
                      const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
+                     const int repititions ) { drawAnimation(frameTiming, frames, 0,0,0, repititions); };
+
+
+  void drawAnimation(const uint16_t frameTiming[] PROGMEM, 
+                     const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
                      const int hMomentum,
                      const int vMomentum,
                      const int framesPerMove,

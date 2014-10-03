@@ -190,7 +190,9 @@ void LEDMatrix::drawAnimation(const uint16_t timing[] PROGMEM,
       //
       // draw the current frame
       drawFrame(data, frameIndex, hOffset, vOffset, flip);
-      
+  
+      //
+      // perform sliding    
       framesShown++;
       if (framesShown >= framesPerMove) {
         framesShown = 0;

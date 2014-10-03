@@ -148,35 +148,39 @@ void loop() {
     matrix.setBrightness(10);
     
     // pacman runs right
-    matrix.drawAnimation(pacmanTiming, pacmanData, 1, 0, 3, 8);
+    matrix.drawAnimation(pacmanTiming, pacmanData, 1, 0, false, 3, 8);
+    
+
     // pacman backs left faster
-    matrix.drawAnimation(pacmanTiming, pacmanData, -2, 0, 3, 4);
+    matrix.drawAnimation(pacmanTiming, pacmanData, -2, 0, true, 3, 4);
     // ghost chases left 
-    matrix.drawAnimation(ghostTiming, ghostData, -1, 0, 2, 16);
+    matrix.drawAnimation(ghostTiming, ghostData, -1, 0, false, 2, 16);
   
     // bright fireworks
     matrix.setBrightness(12);
-    matrix.drawAnimation(fireworksTiming, fireworksData, 2);
+    matrix.drawAnimation(fireworksTiming, fireworksData, 1, false);
+    matrix.drawAnimation(fireworksTiming, fireworksData, 1, true);
+    matrix.drawAnimation(fireworksTiming, fireworksData, 1, false);
+    matrix.drawAnimation(fireworksTiming, fireworksData, 1, true);
   
     // smiley
     matrix.setBrightness(8);
-    matrix.drawAnimation(smileyTiming, smileyData, 3);
-      
+    matrix.drawAnimation(smileyTiming, smileyData, 3, false);
       
     // drop alien 1 from the top
-    matrix.drawAnimation(alien1Timing, alien1Data, 0, 1, 2, 16);
+    matrix.drawAnimation(alien1Timing, alien1Data, 0, 1, false, 2, 16);
   
     // alien 2 rises from the bottom
-    matrix.drawAnimation(alien2Timing, alien2Data, 0, -1, 2, 16);
+    matrix.drawAnimation(alien2Timing, alien2Data, 0, -1, false, 2, 16);
    
     // alien 3 upper left to center
-    matrix.drawAnimation(alien3Timing, alien3Data, 1, 1, 2, 8);
+    matrix.drawAnimation(alien3Timing, alien3Data, 1, 1, false, 2, 8);
     // alien 3 stay and dance a bit
-    matrix.drawAnimation(alien3Timing, alien3Data, 4);
+    matrix.drawAnimation(alien3Timing, alien3Data, 4, false);
    
     // alien 4 fade in/out 
-    matrix.fadeInOut(alien4Timing, alien4Data, 2, 2, 3000);
-  
+    matrix.fadeInOut(alien4Timing, alien4Data, 1, 2, 3000);
+
     delay(10000);
   }
      

@@ -55,13 +55,15 @@ public:
   //
   void drawAnimation(const uint16_t frameTiming[] PROGMEM, 
                      const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
-                     const int repititions ) { drawAnimation(frameTiming, frames, 0,0,0, repititions); };
+                     const int repititions, 
+                     const boolean flip ) { drawAnimation(frameTiming, frames, 0,0, flip, 0, repititions); };
 
 
   void drawAnimation(const uint16_t frameTiming[] PROGMEM, 
                      const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
                      const int hMomentum,
                      const int vMomentum,
+                     const boolean flip,
                      const int framesPerMove,
                      const int repititions );
                      
@@ -126,7 +128,7 @@ private:
   //
   //
   //
-  uint8_t slideRow(const uint8_t rowData, const int offset);
+  uint8_t slideRow(const uint8_t rowData, const int offset, boolean flip);
 
   //
   // send single byte command to LED matrix
@@ -161,6 +163,6 @@ private:
   //
   void drawRow(const uint8_t rowData);
   
-  void drawFrame(const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, int frameIndex, int hOffset, int vOffset);
+  void drawFrame(const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, int frameIndex, int hOffset, int vOffset, boolean flip);
 
 };

@@ -1,10 +1,10 @@
+#include "Position.h"
 // controller for Adafruit 8x8 LED matrix using backpack
 
 #define ROWS_PER_FRAME 8
 #define MAX_FRAMES 16
 #define COLUMS_PER_ROW 8
 
-#include "Translation.h"
 // 
 // some reasonable frame delay values for animations
 //

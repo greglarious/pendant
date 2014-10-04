@@ -1,3 +1,6 @@
+#include "LEDMatrix.h"
+#include "Translation.h"
+
 void drawAnimation(LEDMatrix matrix,
                               const uint8_t timing[] PROGMEM, 
                               const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 

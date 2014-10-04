@@ -1,5 +1,4 @@
 #include <TinyWireM.h>
-#include "LEDMatrix.h"
 #include "Animator.h"
 
 // display object using default address
@@ -160,20 +159,21 @@ void setup() {
 // main loop
 //
 void loop() {
-  for ( int numReps = 0; numReps < 3; numReps++) {
+  for ( int numReps = 0; numReps < 30; numReps++) {
     matrix.setBrightness(10);
 
-    drawAnimation(matrix, asteroidsTiming, asteroidsData, Translation(0, 0, false, 0), 1);
-    
     // pacman runs right
     drawAnimation(matrix, pacmanTiming, pacmanData, Translation(1, 0, false, 3), 8);
     
-
     // pacman backs left faster
     drawAnimation(matrix, pacmanTiming, pacmanData, Translation(-2, 0, true, 3), 4);
+    
     // ghost chases left 
     drawAnimation(matrix, ghostTiming, ghostData, Translation(-1, 0, false, 2), 16);
   
+    // animate asteroids
+    drawAnimation(matrix, asteroidsTiming, asteroidsData, Translation(0, 0, false, 0), 1);
+    
     // bright fireworks
     matrix.setBrightness(12);
     drawAnimation(matrix, fireworksTiming, fireworksData, Translation(0, 0, false, 0), 1);
@@ -182,7 +182,7 @@ void loop() {
   
     // smiley
     matrix.setBrightness(8);
-    drawAnimation(matrix, smileyTiming, smileyData, Translation(0, 0, false, 0), 13);
+    drawAnimation(matrix, smileyTiming, smileyData, Translation(0, 0, false, 0), 4);
       
     // drop alien 1 from the top
     drawAnimation(matrix, alien1Timing, alien1Data, Translation(0, 1, false, 2), 16);
@@ -198,7 +198,6 @@ void loop() {
    
     // alien 4 fade in/out 
     fadeInOut(matrix, alien4Timing, alien4Data, 1, 2, 3000);
-
 
     delay(10000);
   }

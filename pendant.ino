@@ -1,5 +1,6 @@
 #include <TinyWireM.h>
 #include "LEDMatrix.h"
+#include "Animator.h"
 
 // display object using default address
 LEDMatrix matrix = LEDMatrix();
@@ -16,7 +17,7 @@ const  uint8_t alien1Data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B00100100, B00100100 },
  { B01011010, B01011010 },
  { B10100101, B01000010 } };
-const uint16_t alien1Timing[] PROGMEM = 
+const uint8_t alien1Timing[] PROGMEM = 
  { LFRM_DLAY, LFRM_DLAY, END_FRAMES};
 
 //
@@ -31,7 +32,7 @@ const  uint8_t alien2Data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B01111110, B00100100 },
  { B00100100, B00100100 },
  { B11000011, B00100100 } };
-const uint16_t alien2Timing[] PROGMEM = 
+const uint8_t alien2Timing[] PROGMEM = 
  { LFRM_DLAY, LFRM_DLAY, END_FRAMES};
 
 //
@@ -46,7 +47,7 @@ const  uint8_t alien3Data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B11111111, B01111110 },
  { B10100101, B00100100 },
  { B00100100, B01000010 } };
-const uint16_t alien3Timing[] PROGMEM = 
+const uint8_t alien3Timing[] PROGMEM = 
  { LFRM_DLAY, LFRM_DLAY, END_FRAMES };
 
 
@@ -62,7 +63,7 @@ const  uint8_t alien4Data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B00000000, B00000000, B00000000, B00000000 },
  { B00001000, B00001000, B00000000, B00000000 },
  { B00000000, B00001000, B00001000, B00000000 } };
-const uint16_t alien4Timing[] PROGMEM =
+const uint8_t alien4Timing[] PROGMEM =
  { MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, END_FRAMES };
 
 
@@ -78,7 +79,7 @@ const  uint8_t pacmanData[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B11111000, B11111100, B11111111, B11111111, B11111111, B11111100 },
  { B01111110, B01111110, B01111110, B01111110, B01111110, B01111110 },
  { B00111100, B00111100, B00111100, B00111100, B00111100, B00111100 } };
-const uint16_t pacmanTiming[] PROGMEM =
+const uint8_t pacmanTiming[] PROGMEM =
  { MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, END_FRAMES };
  
  
@@ -95,7 +96,7 @@ const  uint8_t ghostData[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B10101011, B10101011},
  { B01010101, B10101010} };
  
-const uint16_t ghostTiming[] PROGMEM =
+const uint8_t ghostTiming[] PROGMEM =
  { LFRM_DLAY, LFRM_DLAY, END_FRAMES };
  
  //
@@ -111,11 +112,11 @@ const  uint8_t smileyData[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B11111111, B00111100, B00111100, B00111100, B00111100, B00100100, B01100110, B11111111, B11111111, B11111111},
  { B00000000, B00000000, B00000000, B00000000, B00000000, B00011000, B00011000, B00000000, B00000000, B00000000} };
  
-const uint16_t smileyTiming[] PROGMEM =
+const uint8_t smileyTiming[] PROGMEM =
  { LFRM_DLAY, LFRM_DLAY, LFRM_DLAY, LFRM_DLAY, LFRM_DLAY, LFRM_DLAY, LFRM_DLAY, LFRM_DLAY, LFRM_DLAY, LFRM_DLAY, END_FRAMES };
 
 
- //
+//
 //--------------fireworks ------------------------------------
 //
 const  uint8_t fireworksData[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = { 
@@ -128,8 +129,24 @@ const  uint8_t fireworksData[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = {
  { B00000000, B01000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00010000, B00000000},
  { B10000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00010000, B00000000} };
  
-const uint16_t fireworksTiming[] PROGMEM =
+const uint8_t fireworksTiming[] PROGMEM =
  { SFRM_DLAY, MFRM_DLAY, LFRM_DLAY, LFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, MFRM_DLAY, END_FRAMES };
+
+//
+//--------------asteroids ------------------------------------
+//
+const  uint8_t asteroidsData[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM = { 
+ { B00000000, B00000010, B00011100, B00111000, B00100000, B00010000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 },
+ { B00000000, B00000000, B00001000, B00010000, B01011000, B10001000, B10001000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 },
+ { B00000000, B00000000, B00000000, B00000000, B11110000, B10001000, B00000000, B00000000, B00000000, B00100000, B01100000, B00110000, B00011000, B00001100, B00000110, B00000011 },
+ { B00000000, B00000000, B00000000, B00100000, B00000000, B00000000, B00000000, B00000000, B00100000, B01010000, B01010000, B00101000, B00010100, B00001010, B00000101, B00000010 },
+ { B00000000, B00000000, B00100000, B00000000, B00000000, B00000000, B00000000, B00100000, B01010000, B01110000, B01100000, B00110000, B00011000, B00001100, B00000110, B00000011 },
+ { B00100000, B00100000, B00100000, B00100000, B00100000, B00100000, B00100000, B01010000, B01110000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 },
+ { B01010000, B01010000, B01010000, B01010000, B01010000, B01010000, B01010000, B01110000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 },
+ { B01110000, B01110000, B01110000, B01110000, B01110000, B01110000, B01110000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 } };
+ 
+const uint8_t asteroidsTiming[] PROGMEM =
+ { VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, VFRM_DLAY, END_FRAMES };
 
 //
 // initial setup
@@ -139,47 +156,49 @@ void setup() {
   matrix.initializeDisplay(12, LEDMatrix::BLINK_NONE);
 }
 
-
 //
 // main loop
 //
 void loop() {
   for ( int numReps = 0; numReps < 3; numReps++) {
     matrix.setBrightness(10);
+
+    drawAnimation(matrix, asteroidsTiming, asteroidsData, Translation(0, 0, false, 0), 1);
     
     // pacman runs right
-    matrix.drawAnimation(pacmanTiming, pacmanData, 1, 0, false, 3, 8);
+    drawAnimation(matrix, pacmanTiming, pacmanData, Translation(1, 0, false, 3), 8);
     
 
     // pacman backs left faster
-    matrix.drawAnimation(pacmanTiming, pacmanData, -2, 0, true, 3, 4);
+    drawAnimation(matrix, pacmanTiming, pacmanData, Translation(-2, 0, true, 3), 4);
     // ghost chases left 
-    matrix.drawAnimation(ghostTiming, ghostData, -1, 0, false, 2, 16);
+    drawAnimation(matrix, ghostTiming, ghostData, Translation(-1, 0, false, 2), 16);
   
     // bright fireworks
     matrix.setBrightness(12);
-    matrix.drawAnimation(fireworksTiming, fireworksData, 1, false);
-    matrix.drawAnimation(fireworksTiming, fireworksData, 1, true);
-    matrix.drawAnimation(fireworksTiming, fireworksData, 1, false);
-    matrix.drawAnimation(fireworksTiming, fireworksData, 1, true);
+    drawAnimation(matrix, fireworksTiming, fireworksData, Translation(0, 0, false, 0), 1);
+    drawAnimation(matrix, fireworksTiming, fireworksData, Translation(0, 0, true, 0), 1);
+    drawAnimation(matrix, fireworksTiming, fireworksData, Translation(0, 0, false, 0), 1);
   
     // smiley
     matrix.setBrightness(8);
-    matrix.drawAnimation(smileyTiming, smileyData, 3, false);
+    drawAnimation(matrix, smileyTiming, smileyData, Translation(0, 0, false, 0), 13);
       
     // drop alien 1 from the top
-    matrix.drawAnimation(alien1Timing, alien1Data, 0, 1, false, 2, 16);
+    drawAnimation(matrix, alien1Timing, alien1Data, Translation(0, 1, false, 2), 16);
   
     // alien 2 rises from the bottom
-    matrix.drawAnimation(alien2Timing, alien2Data, 0, -1, false, 2, 16);
+    drawAnimation(matrix, alien2Timing, alien2Data, Translation(0, -1, false, 2), 16);
    
     // alien 3 upper left to center
-    matrix.drawAnimation(alien3Timing, alien3Data, 1, 1, false, 2, 8);
+    drawAnimation(matrix, alien3Timing, alien3Data, Translation(1, 1, false, 2), 8);
+    
     // alien 3 stay and dance a bit
-    matrix.drawAnimation(alien3Timing, alien3Data, 4, false);
+    drawAnimation(matrix, alien3Timing, alien3Data, Translation(0, 0, false, 0), 4);
    
     // alien 4 fade in/out 
-    matrix.fadeInOut(alien4Timing, alien4Data, 1, 2, 3000);
+    fadeInOut(matrix, alien4Timing, alien4Data, 1, 2, 3000);
+
 
     delay(10000);
   }

@@ -4,6 +4,7 @@
 #define MAX_FRAMES 16
 #define COLUMS_PER_ROW 8
 
+#include "Translation.h"
 // 
 // some reasonable frame delay values for animations
 //
@@ -15,15 +16,15 @@
 
 class LEDMatrix {
 public:
-  static const int DEFAULT_I2C_ADDR = 0x70;
+  static const byte DEFAULT_I2C_ADDR = 0x70;
 
-  static const int BLINK_NONE = 0;
-  static const int BLINK_2HZ = 2;
-  static const int BLINK_1HZ = 4;
-  static const int BLINK_HALFHZ = 5;
+  static const byte BLINK_NONE = 0;
+  static const byte BLINK_2HZ = 2;
+  static const byte BLINK_1HZ = 4;
+  static const byte BLINK_HALFHZ = 5;
   
   LEDMatrix();
-  LEDMatrix(int I2CAddress);
+  LEDMatrix(byte I2CAddress);
   
   //
   // lower power consumption to extend battery life
@@ -38,7 +39,7 @@ public:
   //
   // turn on display, blank it and set brigthness
   //
-  void initializeDisplay(const int brightness, const int blinkType);
+  void initializeDisplay(const byte brightness, const byte blinkType);
   
   //
   // draw a sequence of screens with sleep between each frame
@@ -53,20 +54,7 @@ public:
   //
   // repititions  - how many times to repeat the entire animation from first frame to last
   //
-  void drawAnimation(const uint16_t frameTiming[] PROGMEM, 
-                     const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
-                     const int repititions, 
-                     const boolean flip ) { drawAnimation(frameTiming, frames, 0,0, flip, 0, repititions); };
 
-
-  void drawAnimation(const uint16_t frameTiming[] PROGMEM, 
-                     const uint8_t frames[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
-                     const int hMomentum,
-                     const int vMomentum,
-                     const boolean flip,
-                     const int framesPerMove,
-                     const int repititions );
-                     
   //
   // draw a sequence of screens with sleep between each frame while fading the brightness in and out
   // uses multiple calls to drawAnimation while adjusting display brightness
@@ -86,11 +74,6 @@ public:
   //
   // sleepWhenDone - millis to sleep when sequence is complete
   //
-  void fadeInOut(    const uint16_t timing[] PROGMEM, 
-                     const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, 
-                     const int repititions, 
-                     const int fadeStep,
-                     const long sleepWhenDone);
   
   //
   // put display and gemma to sleep for extremely low power consumption
@@ -122,13 +105,14 @@ public:
   //send the display off command
   void displayOff();
 
+  void drawFrame(const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, int frameIndex, Position* pos);
 private:
   int address;
 
   //
   //
   //
-  uint8_t slideRow(const uint8_t rowData, const int offset, boolean flip);
+  uint8_t slideRow(const uint8_t rowData, Position* pos);
 
   //
   // send single byte command to LED matrix
@@ -163,6 +147,5 @@ private:
   //
   void drawRow(const uint8_t rowData);
   
-  void drawFrame(const uint8_t data[ROWS_PER_FRAME][MAX_FRAMES] PROGMEM, int frameIndex, int hOffset, int vOffset, boolean flip);
 
 };
